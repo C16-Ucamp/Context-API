@@ -1,6 +1,6 @@
 // Context API
 
-// 1.- Contexto: createContext() -> Provider y Consumer
+// 1.- Contexto: createContext() --> Provider y Consumer
 // Provider: envuelve el contexto que necesitan o que proporciona los valores a los componentes 
 // Consumer: acceder a los valores del contexto dentro de los componentes secundarios
 
