@@ -9,6 +9,7 @@ const LoginForm = () => {
 
   const url = "http://localhost:4003/api/v1/auth/login"
   const url2 = "http://localhost:4003/api/v1/users/me"
+  const url3 = "http://localhost:4003/api/v1/admin/yo"
   const navigation = useNavigate()
 
   // const handleSubmit = () =>{
@@ -35,16 +36,24 @@ const LoginForm = () => {
     axios.post(url, userData)
       .then(res => {
         console.log(res.data)
+
+        const token = res.data.token
+        const isAdmin = res.data.role === "admin"
         return (
-          axios.get(url2, {
+          axios.get(isAdmin ? url3 : url2, {
             headers: {
               'Access-Control-Allow-Origin': '*',
-              Authorization: `Bearer ${res.data.token}`
+              Authorization: `Bearer ${token}`
             }
           }).then(response => {
             console.log(response.data)
             setUserdata(response.data)
-            navigation('/profile')
+
+            if(isAdmin){
+              navigation('/admin')
+            } else {
+              navigation('/profile')
+            }
           })
         )
       })

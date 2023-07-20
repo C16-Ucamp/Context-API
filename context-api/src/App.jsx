@@ -1,43 +1,60 @@
-import React, { useContext, useState } from 'react'
-import Page1 from './componentes/Page1'
-import Page2 from './componentes/Page2'
-import ColorContext from './context/ColorContext'
-import { DataProvider } from './context/DataContext'
-
+import React, { useContext, useEffect } from 'react'
+import {Container, Row, Card, Button, Col} from 'react-bootstrap'
+import { ProductContext } from './context/ProductContext'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 const App = () => {
+  const {product, setProduct} = useContext(ProductContext)
 
- const {color, changeColor} = useContext(ColorContext)
+  const getProducts = async() =>{
+    const url = 'http://localhost:4003/api/v1/products'
+    const productos = await axios.get(url)
+    setProduct(productos.data)
+  }
+  const navigation = useNavigate()
 
- const handleChangeColor = () =>{
-  const newColor = color === 'white' ? 'blue' : 'white'; //Cambiar el color
-  changeColor(newColor)
- }
-  
-  //------------------------
-  // const Datos = {
-  //   nombre: "Dany",
-  //   edad: 24,
-  //   música: "un poco de todo"
-  // }
- 
-  // useState = contiene el dato inicial 
-  // data = estado actual 
-  // setData = estado que se va a actualizar
+  const buyProduct = () =>{
+    navigation('/login')
+  }
 
-  // const [data, setData] = useState(Datos)
+  console.log(product)
+  useEffect(()=>{
+    getProducts();
+  }, []); 
 
   return (
-    <div style={{backgroundColor: color}}>
-
-      <button onClick={handleChangeColor}>Cambiar color</button>
-<DataProvider>
-  <Page1  />
-  <Page2  />
-</DataProvider>
-  
+    <div>
+      <Container>
+        <Row>
+          {
+            product.length > 0 ? 
+            product.map((pr,i) =>(
+              <Col md={6} key={i}>
+                <Card style={{width:'18rem'}}>
+                  <Card.Img src={pr.image}/>
+                  <Card.Body>
+                    <Card.Title>{pr.name}</Card.Title>
+                    <Card.Text>
+                      {pr.description}
+                    </Card.Text>
+                    <Card.Text>
+                      ${pr.price}MX
+                    </Card.Text>
+                    <Button variant='primary' onClick={buyProduct}>Comprar</Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            )) :
+            <div>
+              <h1>Sin productos</h1>
+            </div>
+          }
+        </Row>
+      </Container>
     </div>
   )
 }
 
 export default App
+
 
