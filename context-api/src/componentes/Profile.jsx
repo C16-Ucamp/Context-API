@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { UserContext } from '../context/UserContext'
 import { useNavigate } from 'react-router-dom'
+import BtnCheckout from './Checkout/BtnCheckout'
 
 const Profile = () => {
     const {userData, setUserdata, logout} = useContext(UserContext)
@@ -19,6 +20,9 @@ const Profile = () => {
                 <h1>Bienvenid@!</h1>
                 <h1>{userData.name}</h1>
                 <button onClick={handleOut}>Cerrar sesión</button>
+                
+                <BtnCheckout />
+
             </div>
         ) : (
             <h1>No estas logueado :(</h1>

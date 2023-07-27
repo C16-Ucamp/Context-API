@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import {Container, Row, Card, Button, Col} from 'react-bootstrap'
 import { ProductContext } from './context/ProductContext'
 import axios from 'axios'
+import './App.css'
 import { useNavigate } from 'react-router-dom'
 const App = () => {
   const {product, setProduct} = useContext(ProductContext)
@@ -23,7 +24,7 @@ const App = () => {
   }, []); 
 
   return (
-    <div>
+    <div className='contenedor'>
       <Container>
         <Row>
           {
